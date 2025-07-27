@@ -7,6 +7,7 @@ import {
   uploadUserAvatar,
   User,
 } from "@/lib/api/user";
+import Image from "next/image";
 
 const defaultAvatar =
   "https://ui-avatars.com/api/?name=User&background=E5E7EB&color=888";
@@ -76,9 +77,11 @@ export default function UserDashboard() {
         {/* Profile Card */}
         <div className="flex items-center gap-6 bg-white rounded-2xl shadow p-6 mb-8 border border-neutral-200">
           <div className="relative">
-            <img
+            <Image
               src={user?.avatar || defaultAvatar}
               alt="User avatar"
+              width={80}
+              height={80}
               className="w-20 h-20 rounded-full border border-neutral-200 shadow-sm object-cover"
             />
             <button

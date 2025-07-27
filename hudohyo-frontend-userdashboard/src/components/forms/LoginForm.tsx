@@ -35,9 +35,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
       console.log("LoginForm: Calling onLogin");
       await onLogin(email, password);
       console.log("LoginForm: Login successful");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("LoginForm: Login error", err);
-      setError(err.message || "Login failed. Please try again.");
+      if (err && typeof err === "object" && "message" in err) {
+        setError((err as { message?: string }).message || "Login failed. Please try again.");
+      } else {
+        setError("Login failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

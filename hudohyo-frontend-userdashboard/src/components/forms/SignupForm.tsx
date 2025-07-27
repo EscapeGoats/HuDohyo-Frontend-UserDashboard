@@ -44,9 +44,13 @@ const SignupForm: React.FC<SignupFormProps> = ({ onSignup }) => {
       console.log("SignupForm: Calling onSignup");
       await onSignup(email, password);
       console.log("SignupForm: Signup successful");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("SignupForm: Signup error", err);
-      setError(err.message || "Signup failed. Please try again.");
+      if (err && typeof err === "object" && "message" in err) {
+        setError((err as { message?: string }).message || "Signup failed. Please try again.");
+      } else {
+        setError("Signup failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
